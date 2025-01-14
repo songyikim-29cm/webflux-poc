@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: webflux
+  http:
+    client:
+      factory: reactor
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: local
+    redis:
+      host: localhost
+      port: 6379
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      slidingWindowSize: 3
+      minimum-number-of-calls: 1
+      record-exceptions:
+        - java.lang.Throwable
+      permittedNumberOfCallsInHalfOpenState: 1
+      waitDurationInOpenState: 3000
+      failureRateThreshold: 6
+      eventConsumerBufferSize: 1
+      registerHealthIndicator: true
+      sliding-window-type: time_based
+
+client:
+  promotion-api:
+    base-url: --
+    connect-timeout-mills: 100
+    read-timeout-mills: 500
+
+logging:
+  level:
+    io.github.resilience4j.circuitbreaker: DEBUG
